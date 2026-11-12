@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Amazonia Incognita</title>
+<meta name="description" content="Un viaje en canoa de 1,7 km río arriba por el Amazonas, del amanecer en Manaus a la noche junto a la samaúma, con diez secretos escondidos.">
+<meta name="author" content="Pau Morató Sebastià">
+<meta name="theme-color" content="#14100b">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Amazonia Incognita">
+<meta property="og:description" content="Rio acima · Río arriba. Rema por el Amazonas del puerto de Manaus a la madre de la selva y encuentra diez secretos.">
+<meta property="og:url" content="https://explore-amazonia-incognita.github.io/">
+<meta property="og:image" content="https://explore-amazonia-incognita.github.io/compartir.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="css/estilos.css">
+<link rel="stylesheet" href="css/interfaz.css">
+</head><body>
+<div id="vista">
+  <canvas id="gl"></canvas>
+  <div id="sol"></div>
+  <div id="vineta"></div>
+  <div id="aviso">Este navegador no tiene WebGL 2.</div>
+</div>
+<div id="am-ui">
+  <div class="am-esquinas" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+  <header class="am-marca">
+    <h1 class="am-titulo">Amazonia <em><span class="am-pre">in</span>cognita</em></h1>
+    <svg class="am-raya" viewBox="0 0 180 10" preserveAspectRatio="none" aria-hidden="true"><path d="M2,5.5 C54,1.8 108,8.4 178,3.2"/></svg>
+    <p class="am-sub">Rio acima · Río arriba</p>
+  </header>
+
+  <button class="am-b-cuaderno" id="am-b-cuaderno" type="button" aria-expanded="false" aria-controls="am-cuaderno">
+    <span class="am-b-fila"><span class="am-b-etq">Diario · Secretos</span><span class="am-b-cont" id="am-contador">00/10</span></span>
+    <span class="am-segmentos" id="am-segmentos" aria-hidden="true"></span>
+    <svg class="am-marcas" id="am-marcas" viewBox="0 0 168 22" aria-hidden="true"></svg>
+  </button>
+
+  <div class="am-hud am-hud-izq" id="am-hud" aria-hidden="true">
+    <div><span>Tramo</span><b id="am-h-tramo">Manaus</b></div>
+    <div><span>Hora</span><b id="am-h-hora">05:50 · Alba</b></div>
+    <div><span>Remontado</span><b id="am-h-remontado">0 m · de 1.728</b></div>
+    <div><span>Eco</span><b class="am-barras" id="am-h-eco"><i></i><i></i><i></i><i></i><i></i></b></div>
+  </div>
+  <div class="am-hud am-hud-der"><span id="am-ayuda">Rueda o ↑ ↓ para remar · arrastra para mirar · toca el agua</span></div>
+  <div class="am-teclas" id="am-teclas" aria-hidden="true"></div>
+
+  <div class="am-rotulos" id="am-rotulos" aria-hidden="true"></div>
+  <div class="am-final" id="am-final" aria-hidden="true"></div>
+
+  <aside class="am-cuaderno" id="am-cuaderno" aria-hidden="true" aria-labelledby="am-cuaderno-titulo">
+    <div class="am-c-cabeza">
+      <div>
+        <p class="am-c-etq">Diario de a bordo</p>
+        <h2 id="am-cuaderno-titulo">Los secretos del río</h2>
+        <svg class="am-c-raya" viewBox="0 0 210 10" preserveAspectRatio="none" aria-hidden="true"><path d="M2,6 C63,2.4 126,8.6 208,3.6"/></svg>
+      </div>
+      <button class="am-c-cerrar" id="am-cerrar-cuaderno" type="button" aria-label="Cerrar el diario"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M11.2,11 Q18.6,18.9 25,25.6 M24.8,10.4 Q17.4,17.1 11.1,25.3"/></svg></button>
+    </div>
+    <p class="am-c-intro">Diez secretos en kilómetro y medio de río. Unos se tocan; otros se miran, se escriben… o se esperan con el remo quieto.</p>
+    <ol class="am-lista" id="am-lista"></ol>
+    <p class="am-c-fuentes">Datos: Serviço Geológico do Brasil y el puerto de Manaus (cotas del Rio Negro), INPA, Proc. R. Soc. B (2011), Lista Roja de la UICN y las crónicas de Carvajal. Todo dibujado por código. Tipografías: Instrument Serif e IBM Plex Mono (OFL).</p>
+    <p class="am-c-credito" id="am-c-credito-linea" hidden>Un juego de <a id="am-c-credito" target="_blank" rel="noopener"><b id="am-c-credito-nombre"></b><span class="am-flecha"> ↗</span></a></p>
+    <div class="am-c-pie">
+      <button type="button" id="am-ver-final" class="am-c-boton" hidden>Volver a ver el final</button>
+      <button type="button" id="am-borrar" class="am-c-boton am-c-boton-tenue">Borrar progreso</button>
+    </div>
+  </aside>
+
+  <section class="am-tarjeta" id="am-tarjeta" aria-live="polite">
+    <div class="am-t-etq" id="am-t-etq"></div>
+    <h2 class="am-t-tit" id="am-t-tit"></h2>
+    <p class="am-t-txt" id="am-t-txt"></p>
+    <div class="am-t-pie" id="am-t-pie"></div>
+  </section>
+
+  <div class="am-aviso" id="am-aviso" role="status"></div>
+  <button class="am-saltar" id="am-saltar" type="button">Saltar <kbd>⌫</kbd></button>
+
+  <div class="am-cargando" id="am-cargando" aria-live="polite"><span class="am-cargando-gota" aria-hidden="true"></span><span>Remando río arriba…</span></div>
+
+  <div class="am-intro" id="am-intro" hidden>
+    <div class="am-intro-caja">
+      <canvas class="am-intro-medalla" id="am-intro-medalla" aria-hidden="true"></canvas>
+      <h2>Amazonia <em>incognita</em></h2>
+      <p class="am-intro-sub">Rio acima · Río arriba</p>
+      <p class="am-intro-txt">Frente a Manaus, el Río Negro y el Solimões se juntan y el río pasa a llamarse Amazonas: el que más agua lleva de la Tierra. Sube en canoa kilómetro y medio río arriba, del amanecer en el puerto a la noche junto a la samaúma, la madre de la selva. Por el camino esperan diez secretos. Rema, mira, toca el agua… o espera. Lo que encuentres quedará en tu diario.</p>
+      <button type="button" id="am-empezar">Empezar a remar</button>
+    </div>
+  </div>
+
+  <div class="am-creditos" id="am-creditos" hidden role="dialog" aria-modal="true" aria-labelledby="am-creditos-nombre">
+    <div class="am-creditos-caja">
+      <p class="am-creditos-etq">El río, remontado por</p>
+      <h2 class="am-creditos-nombre" id="am-creditos-nombre"></h2>
+      <div class="am-creditos-linea" aria-hidden="true"></div>
+      <p class="am-creditos-txt">Gracias por remar hasta la madre de la selva.</p>
+      <div class="am-creditos-botones">
+        <a class="am-creditos-enlace" id="am-creditos-enlace" target="_blank" rel="noopener">Ver su LinkedIn <span aria-hidden="true">↗</span></a>
+        <button type="button" class="am-creditos-cerrar" id="am-creditos-cerrar">Seguir explorando</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="datos/imagenes.js"></script>
+<script src="datos/modelos.js"></script>
+<script src="datos/cielos.js"></script>
+<script src="datos/texturas.js"></script>
+<script src="js/terceros/three.min.js"></script>
+<script src="js/viaje.js"></script>
+<script src="js/mundo-glsl.js"></script>
+<script src="datos/sonidos.js"></script>
+<script src="js/sonido.js"></script>
+<script src="js/tormenta.js"></script>
+<script src="js/mundo.js"></script>
+<script src="js/interfaz.js"></script>
+<script src="js/libro.js"></script>
+<script src="js/huevos/01-teatro.js"></script>
+<script src="js/huevos/02-mar-dulce.js"></script>
+<script src="js/huevos/03-encuentro.js"></script>
+<script src="js/huevos/04-tambaqui.js"></script>
+<script src="js/huevos/05-crecida.js"></script>
+<script src="js/huevos/06-vitoria-regia.js"></script>
+<script src="js/huevos/07-rios-voladores.js"></script>
+<script src="js/huevos/08-boto.js"></script>
+<script src="js/huevos/09-amazonas.js"></script>
+<script src="js/huevos/10-sapopemas.js"></script>
+<script src="js/huevos/final.js"></script>
+</body></html>
