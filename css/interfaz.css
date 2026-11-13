@@ -42,12 +42,7 @@
 #am-ui button:focus-visible, #am-ui a:focus-visible { outline: 1px solid var(--am-acento); outline-offset: 3px; }
 #am-ui [hidden] { display: none !important; }
 
-/* el grano de película y las marcas de registro de la familia */
-.am-esquinas i { position: fixed; width: 18px; height: 18px; border-color: var(--am-hueso-4); border-style: solid; border-width: 0; }
-.am-esquinas i:nth-child(1) { top: 14px; left: 14px; border-top-width: 1px; border-left-width: 1px; }
-.am-esquinas i:nth-child(2) { top: 14px; right: 14px; border-top-width: 1px; border-right-width: 1px; }
-.am-esquinas i:nth-child(3) { bottom: 14px; left: 14px; border-bottom-width: 1px; border-left-width: 1px; }
-.am-esquinas i:nth-child(4) { bottom: 14px; right: 14px; border-bottom-width: 1px; border-right-width: 1px; }
+/* el grano de película */
 
 /* ---------- marca, Diario e instrumentos: «Tinta sobre el mundo» ----------
    Sin cajas ni bordes: el texto vive sobre la imagen. Detrás de cada bloque, un velo radial que acaba transparente
@@ -344,7 +339,6 @@
   .am-t-txt { font-size: 16.5px; }
   .am-intro-medalla { width: 128px; height: 128px; }
   .am-intro-txt { font-size: 18px; }
-  .am-esquinas i { display: none; }
   .am-rotulo { left: auto !important; right: 18px; transform: translateY(-50%); white-space: normal; max-width: 64vw; flex-direction: row-reverse; text-align: right; font-size: 10px; }
   .am-rotulo.am-r-izq { right: auto; left: 18px !important; transform: translateY(-50%); flex-direction: row; text-align: left; }
   .am-rotulo.am-r-grande { left: 50% !important; right: auto; transform: translate(-50%, -50%) !important; font-size: 28px; }
