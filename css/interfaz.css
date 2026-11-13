@@ -427,3 +427,33 @@
 .am-tarjeta .am-l > span { display: block; transform: translateY(135%); }
 .am-tarjeta.am-visible .am-l > span { animation: am-subir 1.25s var(--am-curva) both; animation-delay: var(--d, 0ms); }
 @keyframes am-subir { from { transform: translateY(135%) skewY(3deg); } to { transform: none; } }
+
+/* ---------- el cursor «gota y ondas» (Pau, 13/11) · js/cursor.js ----------
+   Solo con ratón. Aro a mano en hueso con un punto; sobre lo que se toca se abre y se pone ámbar; al arrastrar se cierra;
+   al tocar el agua deja dos ondas. La sombra corta lo recorta contra el cielo claro y contra la selva oscura. */
+.am-cursor-propio, .am-cursor-propio * { cursor: none !important; }
+.am-cursor { position: fixed; inset: 0; z-index: 2147483000; pointer-events: none; opacity: 0; transition: opacity 0.25s ease; }
+.am-cursor.am-cursor-visible { opacity: 1; }
+.am-cursor-aro, .am-cursor-punto { position: fixed; left: 0; top: 0; will-change: transform; }
+.am-cursor-aro .am-cursor-svg { position: absolute; left: -22px; top: -22px; width: 44px; height: 44px; overflow: visible;
+  transition: transform 0.35s var(--am-curva); filter: drop-shadow(0 1px 1.5px rgba(8, 5, 2, 0.9)) drop-shadow(0 0 6px rgba(8, 5, 2, 0.45)); }
+.am-cursor-svg path { fill: none; stroke: var(--am-hueso); stroke-width: 1.35; stroke-linecap: round; vector-effect: non-scaling-stroke; transition: stroke 0.25s ease, stroke-width 0.25s ease; }
+.am-cursor-punto::before { content: ""; position: absolute; left: -2px; top: -2px; width: 4px; height: 4px; border-radius: 50%; background: var(--am-hueso);
+  box-shadow: 0 0 0 1px rgba(8, 5, 2, 0.55), 0 0 6px rgba(8, 5, 2, 0.5); transition: background 0.25s ease, transform 0.25s var(--am-curva); }
+/* sobre algo que se toca */
+.am-cursor-sobre .am-cursor-aro .am-cursor-svg { transform: scale(1.55) rotate(-12deg); }
+.am-cursor-sobre .am-cursor-svg path { stroke: var(--am-acento); stroke-width: 1.5; }
+.am-cursor-sobre .am-cursor-punto::before { background: var(--am-acento); }
+/* arrastrando para mirar: el aro agarra */
+.am-cursor-agarra .am-cursor-aro .am-cursor-svg { transform: scale(0.62); }
+.am-cursor-agarra .am-cursor-svg path { stroke-width: 2; }
+.am-cursor-agarra .am-cursor-punto::before { transform: scale(0); }
+/* el instante de pulsar */
+.am-cursor-pulsa:not(.am-cursor-agarra) .am-cursor-aro .am-cursor-svg { transform: scale(0.85); }
+.am-cursor-pulsa.am-cursor-sobre:not(.am-cursor-agarra) .am-cursor-aro .am-cursor-svg { transform: scale(1.3) rotate(-12deg); }
+/* las ondas */
+.am-cursor-onda { position: fixed; width: 44px; height: 44px; transform: translate(-50%, -50%); pointer-events: none; }
+.am-cursor-onda .am-cursor-svg { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 1px 1.5px rgba(8, 5, 2, 0.7)); }
+.am-cursor-onda .am-cursor-svg path { stroke-width: 1.2; }
+.am-cursor-onda-ambar .am-cursor-svg path { stroke: var(--am-acento); }
+@media (prefers-reduced-motion: reduce) { .am-cursor-svg, .am-cursor-svg path, .am-cursor-punto::before { transition: none !important; } }
